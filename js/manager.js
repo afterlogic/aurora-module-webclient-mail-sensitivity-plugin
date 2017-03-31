@@ -9,7 +9,9 @@ module.exports = function (oAppData) {
 			start: function (ModulesManager) {
 				if (ModulesManager.isModuleEnabled('MailWebclient'))
 				{
-					ModulesManager.run('MailWebclient', 'registerMessagePaneController', [require('modules/%ModuleName%/js/views/MessageControlView.js'), 'BeforeMessageHeaders']);
+					App.subscribeEvent('MailWebclient::RegisterMessagePaneController', function (fRegisterMessagePaneController) {
+						fRegisterMessagePaneController(require('modules/%ModuleName%/js/views/MessageControlView.js'), 'BeforeMessageHeaders');
+					});
 					ModulesManager.run('MailWebclient', 'registerComposeToolbarController', [require('modules/%ModuleName%/js/views/ComposeDropdownView.js')]);
 				}
 			}
