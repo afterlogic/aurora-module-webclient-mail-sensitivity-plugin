@@ -8,7 +8,7 @@ var ko = require('knockout');
 function CComposeDropdownView()
 {
 	this.sId = 'MailSensitivity';
-	this.selectedSensitivity = ko.observable(Enums.Sensitivity.Nothing);
+	this.selectedSensitivity = ko.observable(Enums.Sensitivity.Nothing).extend({'reversible': true});
 }
 
 CComposeDropdownView.prototype.ViewTemplate = '%ModuleName%_ComposeDropdownView';
@@ -43,6 +43,14 @@ CComposeDropdownView.prototype.doAfterPopulatingMessage = function (oParameters)
 CComposeDropdownView.prototype.doAfterPreparingSendMessageParameters = function (oParameters)
 {
 	oParameters.Sensitivity = this.selectedSensitivity();
+};
+
+CComposeDropdownView.prototype.commit = function () {
+	this.selectedSensitivity.commit();
+};
+
+CComposeDropdownView.prototype.isChanged = function () {
+	return this.selectedSensitivity.changed();
 };
 
 module.exports = new CComposeDropdownView();
